@@ -24,6 +24,7 @@ knitr::opts_chunk$set(
 knitr::read_chunk("../R/permillcalculation.R")
 knitr::read_chunk("../R/permillgraphfunc.R")
 knitr::read_chunk("../R/permilltablefunc.R")
+knitr::read_chunk("../R/descstatfuncs.R")
 ```
 
 This package includes many functions for analyzing data on Fatal Encounters with police. It then uses these functions in the interactable format of a Shiny App. The goal is to make the data easily available so this is a document explaining how to use the Shiny App.
@@ -126,13 +127,65 @@ mainPanel(tabsetPanel(
 
 
 <br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
 
 
 ##<u>Descriptive Statistics</u>
 
-The Descriptive Statistics page is located under the Graphs & Tables tab. The Descriptive Statistics page is for viewing the data by a demographic. The page displays both a table with counts and a bar graph. On the left there is a pull tab that allows you to choose which demographic you want to observe from age, gender, and race.
+The Descriptive Statistics page is located under the Graphs & Tables tab. The Descriptive Statistics page is for viewing the data by a selected demographic. The page displays both a table with counts and a bar graph. 
+
+###Inputs
+
+On the left there is a pull tab that allows you to choose which demographic you want to observe from age, gender, and race.
+
+```{r echo = FALSE}
+selectInput("dem", "Demographic", c("Race", "Gender", "Age"))
+
+```
+
+###Outputs
 
 <strong>Warning:</strong> race includes a lot of missing data so it might not be an accurate description of the true values.
+
+1. The first output given is a table with the counts diplayed for every group within the selected demographic. This allows fofr users to get exact values.
+
+```{r second, echo=FALSE}
+<<descstat>>
+<<dstab>>
+renderDataTable({
+    dstable(input$dem) #From: "descstatfuncs.R"
+  })
+```
+
+2. Below the first output is a bar graph showing the counts in a more visual way. This allows for a good way to view the distribution.
+
+```{r third, echo=FALSE}
+<<dsplt>>
+renderPlot({
+    dsplot(input$dem) #From: "descstatfuncs.R"
+  })
+```
+
 
 #<strong>Maps</strong>
 

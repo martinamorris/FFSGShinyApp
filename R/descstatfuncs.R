@@ -15,6 +15,9 @@ library(ggplot2)
 #'
 #' @importFrom magrittr "%>%"
 #' @export
+
+## @knitr descstat
+
 descstat <- function(dem, ds = fatalencounters){
   if (dem == "Age") {
     df <- ds%>%
@@ -44,6 +47,8 @@ descstat <- function(dem, ds = fatalencounters){
 #'
 #' @export
 
+## @kintr dstab
+
 dstable <- function(dem){
   df <- descstat(dem)
 
@@ -61,6 +66,8 @@ dstable <- function(dem){
 #' @seealso \code{\link{descstat}} and \code{\link{dstable}} and \code{\link{ggplot2}}
 #'
 #' @export
+
+## @knitr dsplt
 
 dsplot <- function(dem){
   df <- descstat(dem)
