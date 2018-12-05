@@ -25,6 +25,8 @@ knitr::read_chunk("../R/permillcalculation.R")
 knitr::read_chunk("../R/permillgraphfunc.R")
 knitr::read_chunk("../R/permilltablefunc.R")
 knitr::read_chunk("../R/descstatfuncs.R")
+knitr::read_chunk("../R/choroplethmapfunc.R")
+knitr::read_chunk("../R/interactivemap.R")
 ```
 
 This package includes many functions for analyzing data on Fatal Encounters with police. It then uses these functions in the interactable format of a Shiny App. The goal is to make the data easily available so this is a document explaining how to use the Shiny App.
@@ -98,7 +100,7 @@ Warning: United States' total fatal encounters data cannot be viewed if Display 
 ###Outputs
 These are the two outputs for the Counts page. They are connected to the above inputs so you can test how they change.
 
-```{r first, echo=FALSE, messages = 'hide'}
+```{r first, echo=FALSE, message=FALSE}
 load("../data/Pop.Rdata")
 reorder_pop_state <- state_pops[order(state_pops$state_abb), ]
 pop_state_and_us <- rbind(reorder_pop_state, all_pops[1, ])
@@ -191,12 +193,71 @@ renderPlot({
 
 ##<u>Choropleth Map</u>
 
-The Choropleth Map page is located under the "Maps" tab. This page displays a choropleth map of the fatal encounters per million population averages for each state. The map allows the user to hover over states to get information on state value. The darker the state, the higher per capita value they have. On the left side panel there is a check box labeled Select Year, if selected then you can view the per capita values for each state by year. A slider allows the year to be selected. If you hit the play arrow, in the bottom right of the slider it, plays the map through the years.
+The Choropleth Map page is located under the "Maps" tab. This page displays a choropleth map of the fatal encounters per million population averages for each state. The map allows the user to hover over states to get information on state value. The darker the state, the higher per capita value they have. 
+
+###Inputs
+
+1. On the left side panel there is a check box labeled Select Year, if selected then you can view the per capita values for each state by year. 
+
+```{r echo = FALSE}
+checkboxInput("yearselect", "Select Year", FALSE)
+```
+
+2. If and only if the Select Year box is selected a slider is given in the left panel. The slider allows the year to be selected. If you hit the play arrow in the bottom right of the slider it plays the map through the years.
+
+```{r echo = FALSE}
+conditionalPanel("input.yearselect",
+                                           sliderInput("year", "Year", 2000, 2017,
+                                                       value = 2000,
+                                                       animate = animationOptions(1500, TRUE),
+                                                       sep = ""))
+```
+
+###Output
+
+```{r fourth, echo= FALSE, message=FALSE}
+<<choromap>>
+
+library(plotly)
+  
+renderPlotly({
+      if(input$yearselect){
+        choroplethmap(paste("p", input$year, sep="")) #From: "choroplethmapfunc.R"
+      }else{
+        choroplethmap()
+      }
+    })
+
+```
 
 ##<u>Cartogram Map</u>
 
-The Cartogram Map page is located under the "Maps" tab. This page displays a cartogram map of the fatal encounters per million population averages for each state.The darker and larger the state, the higher per capita value they have. On the left side panel there is a slider to select the year. If you hit the play arrow, in the bottom right of the slider it, plays the map through the years.
+The Cartogram Map page is located under the "Maps" tab. This page displays a cartogram map of the fatal encounters per million population averages for each state.The darker and larger the state, the higher per capita value they have.
+
+###Input
+
+On the left side panel there is a slider to select the year. If you hit the play arrow, in the bottom right of the slider it, plays the map through the years.
+
+```{r echo = FALSE}
+sliderInput("yearcart", "Year", 2000, 2017, value = 2010, animate = animationOptions(1500, TRUE),  sep = "")
+```
+
+###Output
+
+```{r echo=FALSE}
+renderImage({
+    filename <- normalizePath(file.path(paste('../data/cartogramplots/cart', input$yearcart, '.jpg', sep="")))
+    list(src = filename)}, deleteFile = FALSE)
+```
 
 ##<u>Interactive Map</u>
 
 The Interactive Map page is located under the Maps tab. This page displays an interactive map of individual cases. The cases are grouped by generated regions and when you zoom in (upper left corner) they spread out and break up. Circles can be clicked on to expand. If you get to a singular point you can click on it to get more information in a pop-up. The pop-up includes the victims name, the city the incident accured in, the date of the incident, a brief description of what happened, and a URL.
+
+```{r fifth, echo=FALSE, message=FALSE}
+library(leaflet)
+
+<<intmap>>
+  
+renderLeaflet({interactivemap})
+```

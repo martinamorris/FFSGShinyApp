@@ -359,7 +359,6 @@ server <- function(input, output, session) {
     dsplot(input$dem) #From: "descstatfuncs.R"
   })
 
-
   output$HelpBoxsmall1 = renderUI({
     if (input$helpbuttonsmall1 %% 2 == 1){
       helpText("Selected state is colored red

@@ -11,6 +11,9 @@ library(plotly)
 #' @seealso \code{\link{plot_geo}}
 #'
 #' @export
+
+## @knitr choromap
+
 choroplethmap <- function(yeart = "mean"){
   df <- permillcalc()
   x <- df[,colnames(df) == yeart]
