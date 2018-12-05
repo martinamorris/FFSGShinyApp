@@ -254,6 +254,18 @@ renderImage({
 
 The Interactive Map page is located under the Maps tab. This page displays an interactive map of individual cases. The cases are grouped by generated regions and when you zoom in (upper left corner) they spread out and break up. Circles can be clicked on to expand. If you get to a singular point you can click on it to get more information in a pop-up. The pop-up includes the victims name, the city the incident accured in, the date of the incident, a brief description of what happened, and a URL.
 
+###Input
+
+The input for this page is mouse clicks, as you click on bubbles or areas it zooms in. When you click on points it provides a pop up with information on the event.
+
+###Output
+
+The output is a pop up with the information of the event that happened in the location of the pointer. Similar to the one shown below.
+
+![](Images/IntMapPopUp.PNG)
+
+###Map
+
 ```{r fifth, echo=FALSE, message=FALSE}
 library(leaflet)
 
