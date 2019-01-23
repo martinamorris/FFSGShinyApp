@@ -3,8 +3,8 @@
 #' Creates a graph of fatal encounters by state
 #'
 #' @param state a state name, the state that is graphed or highlighted
-#' @param all a boolean, if TRUE graphs state over the data of other states, if FALSE graphs just the given state
-#' @param capita a boolean, if TRUE evaluates cases per million population of each state, if FALSE just calculates total cases
+#' @param all a boolean, if TRUE graphs state over the data of other states, if FALSE only graphs the given state
+#' @param capita a boolean, if TRUE evaluates cases per million population of each state, if FALSE calculates total cases
 #'
 #' @seealso \code{\link{permillcalc}} and \code{\link{permilltable}}
 #'

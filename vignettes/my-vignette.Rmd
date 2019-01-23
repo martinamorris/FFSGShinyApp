@@ -29,7 +29,16 @@ knitr::read_chunk("../R/choroplethmapfunc.R")
 knitr::read_chunk("../R/interactivemap.R")
 ```
 
-This package includes many functions for analyzing data on Fatal Encounters with police. It then uses these functions in the interactable format of a Shiny App. The goal is to make the data easily available so this is a document explaining how to use the Shiny App.
+The goal of this package is to create an easy way for users to be able to directly interact with and explore data on fatal encounters with police. The package consists of several functions which can be used to explore the data. The functions are then used to construct a shiny app which allows the user to investigate the data through an easy to use interface.
+
+#<strong>About Page</strong>
+
+This is the page that the Shiny App opens up to. The page has it's own tab "About Page" on the navigation bar. It provides information on the project and our group. Included is information on Washington state's recent Initiative I-940.
+Along The left is a panel that includes links to the databases we used along with additional resources.
+The about page appears as below:
+
+![](Images/AboutPage.PNG)
+
 
 #<strong>General Use</strong>
 
@@ -58,15 +67,6 @@ These buttons provide help for the purpose of the page. They also explain what t
 ###Small Help Buttons
 These buttons provide help for more specific incidences such as explaining what a check box does. These appear on the right side of what they provide help for.
   
-#<strong>About Page</strong>
-
-This is the page that the Shiny App opens up to. The page has it's own tab "About Page" on the navigation bar. It provides information on the project and our group. Included is information on Washington state's recent Initiative I-940.
-Along The left is a panel that includes links to the databases we used along with additional resources.
-The about page appears as below:
-
-![](Images/AboutPage.PNG)
-
-
 #<strong>Tables & Graphs</strong>
 
 ##<u>Counts Page</u>

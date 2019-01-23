@@ -2,11 +2,11 @@ library(plotly)
 
 #' choroplethMap
 #'
-#' Creates a choropleth map of fatal encounters for the given year
+#' Creates a choropleth map of fatal encounters by state for the given year
 #'
 #' @param yeart an integer year between 2000 and 2017 or "mean", if blank calculates mean
 #'
-#' @return a chloropleth for the entered year
+#' @return a chloropleth map for the given year
 #'
 #' @seealso \code{\link{plot_geo}}
 #'
@@ -30,8 +30,8 @@ choroplethmap <- function(yeart = "mean"){
 
   plotly::plot_geo(df, locationmode = 'USA-states') %>%
     add_trace(
-      z = ~ x, text = ~hover, locations = ~state,
-      color = ~ x, colors = 'Purples'
+      z = ~df[,colnames(df) == yeart], text = ~hover, locations = ~df$state,
+      color = ~df[,colnames(df) == yeart], colors = 'Purples'
     ) %>%
     colorbar(title = "Civilian Deaths by Police per Million Capita") %>%
     layout(

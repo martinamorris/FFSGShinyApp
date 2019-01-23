@@ -23,11 +23,11 @@ usa@data = data.frame(usa@data, df[match(usa@data[,'unique.IDs.'], tolower(df[,'
 
 #' ffCartogram
 #'
-#' Creates a cartogram of fatal encounters for the given year
+#' Creates a cartogram of fatal encounters per capita by state for the given year
 #'
 #' @param year an integer year between 2000 and 2017
 #'
-#' @return a cartogram for the entered year
+#' @return a cartogram map for the given year
 #'
 #' @seealso \code{\link{cartogram_cont}}
 #'

@@ -6,8 +6,8 @@ library(dplyr)
 #' Creates a table of fatal encounters by state
 #'
 #' @param statenm a state name, the state that is displayed or highlighted
-#' @param all a boolean, if TRUE table includes all states, if FALSE table displays just the given state
-#' @param capita a boolean, if TRUE evaluates cases per million population of each state, if FALSE just calculates total cases
+#' @param all a boolean, if TRUE table includes all states, if FALSE table only displays the given state
+#' @param capita a boolean, if TRUE evaluates cases per million population of each state, if FALSE calculates total cases
 #'
 #' @seealso \code{\link{permillcalc}} and \code{\link{permilltable}}
 #'

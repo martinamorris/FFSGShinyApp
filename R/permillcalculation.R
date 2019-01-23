@@ -1,7 +1,4 @@
-
-library(dplyr)
-#library(tidyr)
-library(stringr)
+library(tidyr)
 
 #------------------------------censusdata---------------------------------------------------
 
@@ -25,8 +22,8 @@ fatalencounters <- fe.clean
 #' Calculates the fatal encounters (per million population or total) for each state
 #'
 #' @param x a data frame of individual fatal encounter cases, default uses fatalencounters
-#' @param capita a boolean, if TRUE evaluates cases per million population of each state, if FALSE just calculates total cases, default is TRUE
-#' @return table a data frame of fatalencounter per state (evaluated per capita or as totals based on capita param)
+#' @param capita a boolean, if TRUE evaluates cases per million population of each state, if FALSE calculates total cases, default is TRUE
+#' @return table a data frame of fatal encounters per state (evaluated per capita or as totals based on capita parameter)
 #'
 #' @export
 

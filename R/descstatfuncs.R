@@ -4,7 +4,7 @@ library(ggplot2)
 #' descStat
 #'
 #' Stratifies a data set based on a given demographic
-#' Used within dstable and ds plot
+#' Used within functions dstable and dsplot
 #'
 #' @param dem a demographic, the demographic the data is to be stratified for (Age, Gender, or Race)
 #' @param ds a data frame, data frame you want to be stratified, if no input uses fatalencounters
