@@ -1,4 +1,6 @@
 # Table of contents
 
-* [Initial page](README.md)
+* [Fatal Force Study Group - Shiny App](README.md)
+* [Data Sources](data-sources.md)
+* [Untitled](untitled.md)
 
