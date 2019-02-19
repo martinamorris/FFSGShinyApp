@@ -1,7 +1,6 @@
 ---
-description: >-
-  A table of data sources we used or are related to the issue of fatal
-  encounters with police.
+title: "data-sources"
+output: html_document
 ---
 
 # Data Sources

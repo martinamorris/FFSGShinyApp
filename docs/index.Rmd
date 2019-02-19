@@ -1,4 +1,7 @@
-# Fatal Force Study Group - Shiny App
+---
+title: "Fatal Force Study Group - Shiny App"
+output: html_document
+---
 
 ### Who is Fatal Force Study Group?
 
