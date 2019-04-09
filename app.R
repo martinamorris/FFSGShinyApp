@@ -1,22 +1,22 @@
-# BM: it's nice for other users if we auto-install missing packages
-# for them
-# load_libraries <- function(x){
-#   for( i in x ){
-#     #  require returns TRUE invisibly if it was able to load package
-#     if( ! require( i , character.only = TRUE ) ){
-#       #  If package was not able to be loaded then re-install
-#       install.packages( i , dependencies = TRUE )
-#       #  Load package after installing
-#       require( i , character.only = TRUE )
-#     }
-#   }
-# }
-#
-#
-# load_libraries( c("shiny" , "here" , "plotly", "leaflet",
-#                    "devtools", "maps", "sp", "maptools",
-#                   "tmap", "cartogram", "DT", "dplyr") )
-#
+#BM: it's nice for other users if we auto-install missing packages
+#for them
+load_libraries <- function(x){
+  for( i in x ){
+    #  require returns TRUE invisibly if it was able to load package
+    if( ! require( i , character.only = TRUE ) ){
+      #  If package was not able to be loaded then re-install
+      install.packages( i , dependencies = TRUE )
+      #  Load package after installing
+      require( i , character.only = TRUE )
+    }
+  }
+}
+
+
+load_libraries( c("shiny" , "here" , "plotly", "leaflet",
+                   "devtools", "maps", "sp", "maptools",
+                  "tmap", "cartogram", "DT", "dplyr") )
+
 # seems like we need to have library calls so that shinyapps.io can detect what pkgs to
 # install
 library("shiny")
@@ -101,8 +101,8 @@ ui <- navbarPage(title = "FFSG", id = "navbar",
                  column(10,
                         h1("Counting Fatal Encounters")),
                  column(2,
-                        div(id='plottabhelp', class='helper-btn', icon('question-circle', 'fa-2x')),
-                          div(class="helper-box", style="display:none",
+                          icon('question-circle', class='fa-2x helper-btn'),
+                          tags$div(class="helper-box", style="display:none",
                                  p("View trends by state over the years
                                     2000 to 2017. Plot and table tabs
                                     allow you to switch between viewing
@@ -116,35 +116,26 @@ ui <- navbarPage(title = "FFSG", id = "navbar",
 
              sidebarLayout(
                sidebarPanel(
-                 selectInput("state", "State", c(sort(
-                   c(state.name, "District of Columbia")
-                 ), "United States"), selected = "Washington"),
-                 fluidRow(
-                   column(9,
-                          checkboxInput("all", "Display with other states", FALSE)
-                   ),
-                   column(3,
-                          div(id='smallhelp1', class='helper-btn-small', icon('question-circle', class='fa-2x helper-btn-small')),
-                          tags$div(class="mischelperbox", style="display:none",
+                 selectInput("state", "State", c(sort(c(state.name, "District of Columbia")), "United States"), selected = "Washington"),
+                 checkboxInput("all", "Display with other states", FALSE),
+                 icon('question-circle', class='fa-2x helper-btn-small'),
+                 tags$div(class="helper-box-small", style="display:none",
                                    p("Selected state is colored red
-                                     with the other states displayed
+                                    with the other states displayed
                                      in gray and the US average in
                                      black. (US average is only
-                                     shown for per capita values)"))
-                   )
-                 ),
-                 fluidRow(
-                   column(9,
-                          checkboxInput("capita", "Calculate per capita (in millions)", TRUE)
-                   ),
-                   column(3,
-                          actionButton(inputId = "helpbuttonsmall2", label = icon(name = "question-circle")),
-                          uiOutput("HelpBoxsmall2")
-                   )
-                 )
+                                     shown for per capita values)")),
 
+                 checkboxInput("capita", "Calculate per capita (in millions)", TRUE),
+                 icon('question-circle', class='fa-2x helper-btn-small'),
+                 tags$div(class="helper-box-small", style="display:none",
+                                   p("When selected values are
+                                     calculated as a number of
+                                     fatal events per million
+                                     people in the population.
+                                     Otherwise displays total
+                                     number of fatal events."))
                ),
-
                #Creates plot and table tabs so user can view data in either form
                mainPanel(tabsetPanel(
                  type = "tabs",
@@ -178,8 +169,14 @@ ui <- navbarPage(title = "FFSG", id = "navbar",
                sidebarPanel(
                  selectInput("dem", "Demographic", c("Race", "Gender", "Age")),
                  h6("Disclaimer: Please take note that the data we are currently using is still a work in progress so some of the data is missing. This means that there is a possibility that the trends displayed aren't the true trends for the data."),
-                 actionButton(inputId = "helpbuttonsmall3", label = icon(name = "question-circle")),
-                 uiOutput("HelpBoxsmall3")
+                 icon('question-circle', class='fa-2x helper-btn-small'),
+                 tags$div(class="helper-box-small", style="display:none",
+                          p("Trends will differ based on
+                            if the data is missing at
+                            random (meaning that each group
+                            is just as likely to have been
+                            marked as unspecified) or not.
+                            If not the trends will change."))
                ),
                mainPanel(dataTableOutput("dstbl"), plotOutput("dsplt"))
              )
@@ -263,7 +260,8 @@ ui <- navbarPage(title = "FFSG", id = "navbar",
              tabPanel(title = "Interactive", value = "tab6",
                       fluidPage(
                         fluidRow(
-                          column(10),
+                          column(10,
+                                 h1("Interactive Map")),
                           column(2,
                                  icon('question-circle', class='fa-2x helper-btn'),
                                  tags$div(class="helper-box", style="display:none",
@@ -357,44 +355,6 @@ server <- function(input, output, session) {
   #Plot for demographics (Race, Gender, Age)
   output$dsplt <- renderPlot({
     dsplot(input$dem) #From: "descstatfuncs.R"
-  })
-
-  output$HelpBoxsmall1 = renderUI({
-    if (input$helpbuttonsmall1 %% 2 == 1){
-      helpText("Selected state is colored red
-               with the other states displayed
-               in gray and the US average in
-               black. (US average is only
-               shown for per capita values)")
-    }else{
-      return()
-    }
-  })
-
-  output$HelpBoxsmall2 = renderUI({
-    if (input$helpbuttonsmall2 %% 2 == 1){
-      helpText("When selected values are
-               calculated as a number of
-               fatal events per million
-               people in the population.
-               Otherwise displays total
-               number of fatal events.")
-    }else{
-      return()
-    }
-  })
-
-  output$HelpBoxsmall3 = renderUI({
-    if (input$helpbuttonsmall3 %% 2 == 1){
-      helpText("Trends will differ based on
-               if the data is missing at
-               random (meaning that each group
-               is just as likely to have been
-               marked as unspecified) or not.
-               If not the trends will change.")
-    }else{
-      return()
-    }
   })
 
   output$felink <- renderUI({

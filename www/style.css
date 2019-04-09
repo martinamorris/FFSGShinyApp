@@ -70,7 +70,7 @@ div.tool:hover .callout {
   top: -13px;
 }
 
-div.busy {
+.busy {
   position:fixed;
   top: 40%;
   left: 50%;
@@ -147,7 +147,7 @@ div.busy {
     cursor: pointer;
 }
 
-div.helper-box {
+.helper-box {
   position:fixed;
   top: 90px;
   right: 20px;
@@ -168,15 +168,15 @@ div.helper-box {
 }
 
 .helper-btn-small {
-    position:absolute;
+    position:static;
     font-size: 18px;
     color: #B4B4B4;
     cursor: pointer;
 }
 
-div.helper-box-small {
-  position:absolute;
-  z-index: 10;
+.helper-box-small {
+  position:static;
+  z-index: -1;
   display: none;
   width: 200px;
   height: 100px;
@@ -189,20 +189,7 @@ div.helper-box-small {
   z-index: 10;
 }
 
-div.mischelperbox {
-  position: absolute;
-  z-index: 10;
-  display: none;
-  max-width: 400px;
-  max-height: 300px;
-  background: #FFFFFF;
-  text-align: left;
-  font-size: 12px;
-  padding: 5px;
-  border: 1px solid #CECED8;
-  border-radius: 5px;
-  z-index: 10;
-}
+
 
 
 div.warning {
