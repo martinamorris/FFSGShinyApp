@@ -34,7 +34,7 @@ usa@data = data.frame(usa@data, df[match(usa@data[,'unique.IDs.'], tolower(df[,'
 #' @export
 ffcartogram <- function(year){
   # BM: add a little bit of error handling to help with testing
-  if(!year %in% 2000:2017) stop("Please enter a year between 2000 and 2017")
+  if(!year %in% 2000:format(Sys.Date(), "%Y")) stop("Please enter a year between 2000 and 2017")
   # BM: add the p here, makes this fn more versatile
   year <- paste0('p', year)
   # make cartogram
