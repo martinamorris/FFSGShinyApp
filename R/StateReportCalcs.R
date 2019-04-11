@@ -1,4 +1,9 @@
 library(dplyr)
+library(tidyr)
+
+
+load("data/fe.clean.Rdata")
+fatalencounters <- fe.clean
 
 x = fatalencounters
 
@@ -20,12 +25,18 @@ state_gender <- festate %>%
   spread(year, n)
 state_gender[is.na(state_gender)] <- 0 #replaces NA with 0
 
+state_city <- festate %>%
+  group_by(year) %>%
+  count(city) %>%
+  spread(year, n)
+state_city[is.na(state_city)] <- 0 #replaces NA with 0
+
+
 #Create plot
 linegraph_state <- function(filter){
   if(filter == "none") {
     permillgraph("Washington", FALSE,FALSE)
-    )
-  }else if(filer == "race") {
+  }else if(filter == "race") {
     matplot(2000:2017, t(state_race[, 2:19]), type = c("b"),pch=1,col = 1:6, ylab = "Fatal Encounters", xlab = "Year") #plot
     legend("topleft", legend = c("African-American/Black", "Asian/Pacific Islander", "European-American/White", "Hispanic/Latino", "Native American/Alaskan", "Unspecified"), col=1:6, pch=1) # optional legend
   }else{
