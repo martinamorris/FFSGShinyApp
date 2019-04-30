@@ -1,4 +1,6 @@
 library(plotly)
+source("R/permillcalculation.R")
+
 
 #' choroplethMap
 #'

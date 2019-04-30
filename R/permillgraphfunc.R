@@ -1,3 +1,5 @@
+source("R/permillcalculation.R")
+
 #' perMillGraph
 #'
 #' Creates a graph of fatal encounters by state
@@ -40,6 +42,7 @@ permillgraph <- function(state, all, capita) {
         cex = 0.75
       )
       }else{
+        if(state == "United States"){}
         plot(
           2000:(as.integer(format(Sys.Date(), "%Y"))-2),
         df[df$state_name == state, 3:20],

@@ -1,5 +1,7 @@
 library(DT)
 library(dplyr)
+source("R/permillcalculation.R")
+
 
 #' perMillTable
 #'
