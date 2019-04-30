@@ -6,7 +6,6 @@ output:
   html_document:
     toc: yes
     toc_float: true
-runtime: shiny
 vignette: >
   %\VignetteIndexEntry{Vignette Title}
   %\VignetteEngine{knitr::rmarkdown}
@@ -18,15 +17,6 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
-```
-
-```{r echo=FALSE}
-knitr::read_chunk("../R/permillcalculation.R")
-knitr::read_chunk("../R/permillgraphfunc.R")
-knitr::read_chunk("../R/permilltablefunc.R")
-knitr::read_chunk("../R/descstatfuncs.R")
-knitr::read_chunk("../R/choroplethmapfunc.R")
-knitr::read_chunk("../R/interactivemap.R")
 ```
 
 The goal of this package is to create an easy way for users to be able to directly interact with and explore data on fatal encounters with police. The package consists of several functions which can be used to explore the data. The functions are then used to construct a shiny app which allows the user to investigate the data through an easy to use interface.
@@ -79,53 +69,14 @@ On the left side is a control panel that allows the data to be interactable. Wit
 
   1. The first option is a pull tab labeled State which allows you to select which state you would like to have displayed or highlighted. 
   
-```{r echo = FALSE}
-selectInput("state", "State", c(sort( c(state.name, "District of Columbia")), "United States"))
-```
-  
   2. The second option is a check box labeled Display with Other States, the default for this box is not-selected this means the state is displayed in the graph or table by itself. If selected the state is graphed in red over the other states' data in grey and the US' data in red or the state is highlighted in yellow listed with all the other states in a table.
-  
-```{r echo = FALSE}
-checkboxInput("all", "Display with other states", FALSE)
-```
-  
+
   3. The third option is a check box labeled Calculate per Capita (in millions). This box is defaulted to selected meaning the numbers used in the output are the total fatal encounters for the state over the state's population in millions. This allows for more propotional comparisons between states. If not selected the numbers in the output are the total fatal encounters without any modification.
-  
-```{r echo = FALSE}
-checkboxInput("capita", "Calculate per capita (in millions)", TRUE)
-```
   
 Warning: United States' total fatal encounters data cannot be viewed if Display with other states is selected.
 
 ###Outputs
 These are the two outputs for the Counts page. They are connected to the above inputs so you can test how they change.
-
-```{r first, echo=FALSE, message=FALSE}
-load("../data/Pop.Rdata")
-reorder_pop_state <- state_pops[order(state_pops$state_abb), ]
-pop_state_and_us <- rbind(reorder_pop_state, all_pops[1, ])
-pop_state_and_us_mill <- pop_state_and_us[, 3:20] / 1000000
-
-
-load("../data/fe.clean.Rdata")
-fatalencounters <- fe.clean
-
-<<permcalc>>
-<<permillgraph>>
-<<permilltab>>
-
-library(tidyverse)
-library(DT)
-
-mainPanel(tabsetPanel(
-                 type = "tabs",
-                 tabPanel("plot", renderPlot({
-      permillgraph(input$state, input$all, input$capita) #From: "permillgraphfunc.R"
-    })),
-                 tabPanel("table", renderDataTable({
-      permilltable(input$state, input$all, input$capita)})
-               )))
-```
 
 
 <br />
@@ -160,33 +111,13 @@ The Descriptive Statistics page is located under the Graphs & Tables tab. The De
 
 On the left there is a pull tab that allows you to choose which demographic you want to observe from age, gender, and race.
 
-```{r echo = FALSE}
-selectInput("dem", "Demographic", c("Race", "Gender", "Age"))
-
-```
-
 ###Outputs
 
 <strong>Warning:</strong> race includes a lot of missing data so it might not be an accurate description of the true values.
 
 1. The first output given is a table with the counts diplayed for every group within the selected demographic. This allows fofr users to get exact values.
 
-```{r second, echo=FALSE}
-<<descstat>>
-<<dstab>>
-renderDataTable({
-    dstable(input$dem) #From: "descstatfuncs.R"
-  })
-```
-
 2. Below the first output is a bar graph showing the counts in a more visual way. This allows for a good way to view the distribution.
-
-```{r third, echo=FALSE}
-<<dsplt>>
-renderPlot({
-    dsplot(input$dem) #From: "descstatfuncs.R"
-  })
-```
 
 
 #<strong>Maps</strong>
@@ -199,36 +130,9 @@ The Choropleth Map page is located under the "Maps" tab. This page displays a ch
 
 1. On the left side panel there is a check box labeled Select Year, if selected then you can view the per capita values for each state by year. 
 
-```{r echo = FALSE}
-checkboxInput("yearselect", "Select Year", FALSE)
-```
-
 2. If and only if the Select Year box is selected a slider is given in the left panel. The slider allows the year to be selected. If you hit the play arrow in the bottom right of the slider it plays the map through the years.
 
-```{r echo = FALSE}
-conditionalPanel("input.yearselect",
-                                           sliderInput("year", "Year", 2000, 2017,
-                                                       value = 2000,
-                                                       animate = animationOptions(1500, TRUE),
-                                                       sep = ""))
-```
-
 ###Output
-
-```{r fourth, echo= FALSE, message=FALSE}
-<<choromap>>
-
-library(plotly)
-  
-renderPlotly({
-      if(input$yearselect){
-        choroplethmap(paste("p", input$year, sep="")) #From: "choroplethmapfunc.R"
-      }else{
-        choroplethmap()
-      }
-    })
-
-```
 
 ##<u>Cartogram Map</u>
 
@@ -238,17 +142,8 @@ The Cartogram Map page is located under the "Maps" tab. This page displays a car
 
 On the left side panel there is a slider to select the year. If you hit the play arrow, in the bottom right of the slider it, plays the map through the years.
 
-```{r echo = FALSE}
-sliderInput("yearcart", "Year", 2000, 2017, value = 2010, animate = animationOptions(1500, TRUE),  sep = "")
-```
-
 ###Output
 
-```{r echo=FALSE}
-renderImage({
-    filename <- normalizePath(file.path(paste('../data/cartogramplots/cart', input$yearcart, '.jpg', sep="")))
-    list(src = filename)}, deleteFile = FALSE)
-```
 
 ##<u>Interactive Map</u>
 
@@ -266,10 +161,3 @@ The output is a pop up with the information of the event that happened in the lo
 
 ###Map
 
-```{r fifth, echo=FALSE, message=FALSE}
-library(leaflet)
-
-<<intmap>>
-  
-renderLeaflet({interactivemap})
-```
