@@ -1,5 +1,7 @@
 library(dplyr)
 library(tidyr)
+library(DT)
+source("R/permillcalculation.R")
 
 
 load("data/fe.clean.Rdata")
@@ -30,7 +32,18 @@ state_city <- festate %>%
   count(city) %>%
   spread(year, n)
 state_city[is.na(state_city)] <- 0 #replaces NA with 0
+state_city$Total = rowSums(state_city[,2:20])
+top10 <- state_city %>%
+  arrange(desc(Total)) %>%
+  top_n(10, Total) %>%
+  select(city, Total)
+top10dt <- datatable(top10)
 
+festates <- permillcalc()
+festates <- festates %>%
+  select(state, mean) %>%
+  arrange(desc(mean))
+rank <- which(festates$state == "WA")
 
 #Create plot
 linegraph_state <- function(filter){
