@@ -1,3 +1,0 @@
-#output_dir: "/docs"
-rmd_subdir: ["docs/"]
-rmd_files: ["docs/index.Rmd", "docs/data-sources.Rmd", "docs/Manual.Rmd"]
