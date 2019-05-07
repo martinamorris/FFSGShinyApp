@@ -39,11 +39,14 @@ top10 <- state_city %>%
   select(city, Total)
 top10dt <- datatable(top10)
 
-festates <- permillcalc()
-festates <- festates %>%
-  select(state, mean) %>%
-  arrange(desc(mean))
-rank <- which(festates$state == "WA")
+getrank <- function(stateabbr, capita = TRUE) {
+  festates <- permillcalc(capita=capita)
+  festates <- festates %>%
+    select(state, mean) %>%
+    arrange(desc(mean))
+  rank <- which(festates$state == stateabbr)
+  return(rank)
+}
 
 #Create plot
 linegraph_state <- function(filter){
@@ -57,3 +60,5 @@ linegraph_state <- function(filter){
     legend("topleft", legend = c("Female", "Male", "Unspecified"), col=1:3, pch=1) # optional legend
   }
 }
+
+globalVariables(c("year"))
