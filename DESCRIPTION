@@ -19,6 +19,7 @@ Imports:
   dplyr,
   DT,
   ggplot2,
+  graphics,
   here,
   leaflet,
   maps,
@@ -27,7 +28,8 @@ Imports:
   sp,
   stringr,
   tmap,
-  tidyr
+  tidyr,
+  utils
 Suggests: 
     knitr,
     rmarkdown
