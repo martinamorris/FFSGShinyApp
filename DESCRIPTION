@@ -7,7 +7,7 @@ Maintainer: Madeline Cummins <maddic9@uw.edu>
 Description: A package meant to provide tools and a shiny app to 
   help users explore fatal encounters with police. Functions can be
   used on their own but it is recommended to be viewed in the shiny app.
-License: GPL3
+License: GPL-3
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.1.0
@@ -34,3 +34,4 @@ Suggests:
     knitr,
     rmarkdown
 VignetteBuilder: knitr
+
