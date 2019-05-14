@@ -1,5 +1,7 @@
 library(dplyr)
 library(tidyr)
+library(leaflet)
+library(ggplot2)
 library(DT)
 source("R/permillcalculation.R")
 
@@ -33,14 +35,17 @@ state_city <- festate %>%
   spread(year, n)
 state_city[is.na(state_city)] <- 0 #replaces NA with 0
 state_city$Total = rowSums(state_city[,2:20])
+
 top10 <- state_city %>%
   arrange(desc(Total)) %>%
   top_n(10, Total) %>%
   select(city, Total)
+
 top10dt <- datatable(top10)
-barplot(top10, city, Total)
 
+top10_bar <- ggplot(top10, aes(city, Total))+geom_bar(stat = "identity")
 
+##get rank function
 getrank <- function(stateabbr, capita = TRUE) {
   festates <- permillcalc(capita=capita)
   if(capita == TRUE) {
@@ -74,8 +79,6 @@ Metrics <- data.frame(Metric, Counts, Capita)
 Metric_DT <- datatable(Metrics)
 
 ##Map
-
-library(leaflet)
 
 leaflet(festate) %>% addTiles() %>%
   addMarkers(lng = ~longitude, lat = ~latitude, clusterOptions = markerClusterOptions())
