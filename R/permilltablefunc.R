@@ -40,3 +40,5 @@ permilltable <- function(statenm, all, capita){
   }
 
 }
+
+globalVariables(c("state_name"))

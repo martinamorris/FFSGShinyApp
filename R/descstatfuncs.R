@@ -84,3 +84,5 @@ dsplot <- function(dem){
 
   plot
 }
+
+globalVariables(c("age", "sex", "race"))

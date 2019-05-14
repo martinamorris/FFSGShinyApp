@@ -1,10 +1,11 @@
 library(tidyr)
+library(dplyr)
 
 #------------------------------censusdata---------------------------------------------------
 
 ## @knitr popdata
 
-load("data/Pop.Rdata")
+load("extdata/Pop.Rdata")
 reorder_pop_state <- state_pops[order(state_pops$state_abb), ]
 pop_state_and_us <- rbind(reorder_pop_state, all_pops[1, ])
 pop_state_and_us_mill <- pop_state_and_us[, 3:20] / 1000000
@@ -13,7 +14,7 @@ pop_state_and_us_mill <- pop_state_and_us[, 3:20] / 1000000
 
 ## @knitr fedata
 
-load("data/fe.clean.Rdata")
+load("extdata/fe.clean.Rdata")
 fatalencounters <- fe.clean
 #------------------------------function-----------------------------------------------
 
@@ -60,7 +61,10 @@ permillcalc <- function(x = fatalencounters, capita = TRUE){
     colnames(kpm)[21] <- "mean"
     table <- kpm
 
-  }else{table <- kdata}
+  }else{
+    table <- cbind(kdata, rowSums(counts[,3:20]))
+    colnames(table)[colnames(table)=="rowSums(counts[, 3:20])"] <- "Total"
+  }
 
   colnames(table)[1] <- "state_name"
   colnames(table)[3:20] <- stringr::str_c("p",colnames(table)[3:20])
