@@ -4,7 +4,7 @@ library(DT)
 source("R/permillcalculation.R")
 
 
-load("data/fe.clean.Rdata")
+load("extdata/fe.clean.Rdata")
 fatalencounters <- fe.clean
 
 x = fatalencounters
@@ -38,15 +38,47 @@ top10 <- state_city %>%
   top_n(10, Total) %>%
   select(city, Total)
 top10dt <- datatable(top10)
+barplot(top10, city, Total)
+
 
 getrank <- function(stateabbr, capita = TRUE) {
   festates <- permillcalc(capita=capita)
-  festates <- festates %>%
-    select(state, mean) %>%
-    arrange(desc(mean))
+  if(capita == TRUE) {
+    festates <- festates %>%
+      select(state, mean) %>%
+      arrange(desc(mean))
+  } else {
+    festates <- festates %>%
+      select(state, Total) %>%
+      arrange(desc(Total))
+  }
   rank <- which(festates$state == stateabbr)
   return(rank)
 }
+
+
+## Create Table of Metrics
+
+counts <- permillcalc(capita = FALSE)
+capita <- permillcalc(capita = TRUE)
+
+state_capita <- capita[which(capita$state == "WA"),]
+state_counts <- counts[which(counts$state == "WA"),]
+
+Metric <- c("In 2017", "Since 2000", "Rank")
+Capita <- c(state_capita$p2017, state_capita$mean, getrank("WA", capita = TRUE))
+Counts <- c(state_counts$p2017, state_counts$Total, getrank("WA", capita = FALSE))
+
+Metrics <- data.frame(Metric, Counts, Capita)
+
+Metric_DT <- datatable(Metrics)
+
+##Map
+
+library(leaflet)
+
+leaflet(festate) %>% addTiles() %>%
+  addMarkers(lng = ~longitude, lat = ~latitude, clusterOptions = markerClusterOptions())
 
 #Create plot
 linegraph_state <- function(filter){
