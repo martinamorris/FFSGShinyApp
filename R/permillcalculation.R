@@ -62,8 +62,8 @@ permillcalc <- function(x = fatalencounters, capita = TRUE){
     table <- kpm
 
   }else{
-    table <- cbind(kdata, rowSums(counts[,3:20]))
-    colnames(table)[colnames(table)=="rowSums(counts[, 3:20])"] <- "Total"
+    table <- cbind(kdata, rowSums(kdata[,3:20]))
+    colnames(table)[colnames(table)=="rowSums(kdata[, 3:20])"] <- "Total"
   }
 
   colnames(table)[1] <- "state_name"
