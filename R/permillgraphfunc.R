@@ -120,7 +120,7 @@ permillgraph <- function(state, all, capita) {
       )
     }else{
       plot(
-        2000:(as.integer(format(Sys.Date(), "%Y"))-3),
+        2000:(as.integer(format(Sys.Date(), "%Y"))-2),
         df[df$state_name == state, 3:20],
         type = "l",
         col = "red",
