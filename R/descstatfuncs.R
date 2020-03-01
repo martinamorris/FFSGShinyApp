@@ -52,7 +52,7 @@ descstat <- function(dem, ds = fatalencounters){
 dstable <- function(dem){
   df <- descstat(dem)
 
-  datatable(df)
+  datatable(df,  rownames = FALSE)
 }
 
 #' dsPlot

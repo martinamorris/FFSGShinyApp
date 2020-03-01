@@ -26,7 +26,7 @@ permilltable <- function(statenm, all, capita){
   }
 
   if(all){
-    DT::datatable(rounded) %>% formatStyle(
+    DT::datatable(rounded ,  rownames = FALSE) %>% formatStyle(
       'state_name',
       target = 'row',
       backgroundColor = styleEqual(
@@ -36,7 +36,7 @@ permilltable <- function(statenm, all, capita){
   }else{
     df <- rounded %>%
       filter(state_name == statenm)
-    DT::datatable(df)
+    DT::datatable(df,  rownames = FALSE)
   }
 
 }
