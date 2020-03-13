@@ -53,9 +53,6 @@ permillcalc <- function(x = fatalencounters, capita = TRUE){
 
   if(capita){
     #calculate deaths per million population
-    print(dim(kdata[, -c(1:2,21:22)]))
-    print(dim(pop_state_and_us_mill))
-    browser()
     kpm <- kdata[, -c(1:2,21:22)] / pop_state_and_us_mill
 
     #find avegages over all years
