@@ -36,27 +36,18 @@ permillcalc <- function(x = fatalencounters, capita = TRUE){
   kdata <- x %>%
     group_by(year) %>%
     count(state) %>%
-    spread(year, n)
-
-  #change NA values (where no data matched) to 0
-  kdata[is.na(kdata)] <- 0
-
-  #Calculate US total
-  kdata["Total" , ][, -1] <- colSums(kdata[, -1])
-  kdata$state <- as.character(kdata$state)
-  kdata[52,1] <- "US"
-
-
-  #add full state names
-  kdata <- cbind(pop_state_and_us[, 1], kdata)
-  colnames(kdata)[1] <- "state_name"
+    spread(year, n) %>%
+    mutate_if(is.numeric, function(x) ifelse(is.na(x), 0, x)) %>%
+    bind_rows(mutate(summarise_if(., is.numeric, sum), state = "US")) %>%
+    mutate(state_name = pop_state_and_us[, 1]) %>%
+    select(state_name, state, `2000`:`2020`)
 
   if(capita){
     #calculate deaths per million population
     kpm <- kdata[, -c(1:2, 21:23)] / pop_state_and_us_mill
 
     #find avegages over all years
-    kpm <- cbind(kdata[, 1:2], kpm, rowMeans(kpm))
+    kpm <- cbind(kdata[, c(1, 2)], kpm, rowMeans(kpm))
 
     colnames(kpm)[21] <- "mean"
     table <- kpm

@@ -1,21 +1,21 @@
 #BM: it's nice for other users if we auto-install missing packages
 #for them
-load_libraries <- function(x){
-  for( i in x ){
-    #  require returns TRUE invisibly if it was able to load package
-    if( ! require( i , character.only = TRUE ) ){
-      #  If package was not able to be loaded then re-install
-      install.packages( i , dependencies = TRUE )
-      #  Load package after installing
-      require( i , character.only = TRUE )
-    }
-  }
-}
+# load_libraries <- function(x){
+#   for( i in x ){
+#     #  require returns TRUE invisibly if it was able to load package
+#     if( ! require( i , character.only = TRUE ) ){
+#       #  If package was not able to be loaded then re-install
+#       install.packages( i , dependencies = TRUE )
+#       #  Load package after installing
+#       require( i , character.only = TRUE )
+#     }
+#   }
+# }
 
 
-load_libraries( c("shiny" , "here" , "plotly", "leaflet",
-                   "devtools", "maps", "sp", "maptools",
-                  "tmap", "cartogram", "DT", "dplyr") )
+# load_libraries( c("shiny" , "here" , "plotly", "leaflet",
+#                    "devtools", "maps", "sp", "maptools",
+#                   "tmap", "cartogram", "DT", "dplyr") )
 
 # seems like we need to have library calls so that shinyapps.io can detect what pkgs to
 # install
@@ -37,7 +37,8 @@ library("dplyr")
 
 # BM: docs say that "the directory that you save server.R in
 # will become the working directory of your Shiny app.
-# https://shiny.rstudio.com/tutorial/written-tutorial/lesson5/
+# https://shiny.rstudio.com/tutorial/
+
 # so we need to source from here
 source("R/permillcalculation.R")
 source("R/permilltablefunc.R")
@@ -345,7 +346,7 @@ server <- function(input, output, session) {
     })
   #Cartogram Map
   output$cartogram <- renderImage({
-    filename <- normalizePath(file.path(paste('data/cartogramplots/cart', input$yearcart, '.jpg', sep="")))
+    filename <- normalizePath(file.path(paste('extdata/cartogramplots/cart', input$yearcart, '.jpg', sep="")))
     list(src = filename)
   }, deleteFile = FALSE) #Static Jpegs from "data/cartogramplots" folder. Update using "updatecart.R" in folder
   #Data Table for demographics (Race, Gender, Age)
