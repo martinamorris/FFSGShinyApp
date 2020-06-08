@@ -21,7 +21,7 @@ permillgraph <- function(state, all, capita) {
     if(state == "United States"){
       if (all) {
         matplot(
-          2000:(as.integer(format(Sys.Date(), "%Y"))-2),
+          2000:2017,
           t(df[, 3:20]),
           type = "l",
           col = "grey",
@@ -30,7 +30,7 @@ permillgraph <- function(state, all, capita) {
           main = "Police Killings in US by State"
         )
 
-        lines(2000:(as.integer(format(Sys.Date(), "%Y"))-2), df[df$state_name == state, 3:20],
+        lines(2000:2017, df[df$state_name == state, 3:20],
               col = "red")
         legend(
           "topright",
@@ -44,7 +44,7 @@ permillgraph <- function(state, all, capita) {
         )
       }else {
         plot(
-          2000:(as.integer(format(Sys.Date(), "%Y"))-2),
+          2000:2017,
           df[df$state_name == state, 3:20],
           type = "l",
           col = "red",
@@ -57,7 +57,7 @@ permillgraph <- function(state, all, capita) {
     else {
       if (all) {
         matplot(
-          2000:(as.integer(format(Sys.Date(), "%Y"))-2),
+          2000:2017,
           t(df[, 3:20]),
           type = "l",
           col = "grey",
@@ -66,7 +66,8 @@ permillgraph <- function(state, all, capita) {
           main = "Police Killings in US by State"
         )
 
-        lines(2000:(as.integer(format(Sys.Date(), "%Y"))-2), df[df$state_name == state, 3:20],
+        lines(2000:2017,
+              df[df$state_name == state, 3:20],
               col = "red")
         legend(
           "topright",
@@ -80,7 +81,7 @@ permillgraph <- function(state, all, capita) {
         )
         }else{
           plot(
-            2000:(as.integer(format(Sys.Date(), "%Y"))-2),
+            2000:2017,
           df[df$state_name == state, 3:20],
           type = "l",
           col = "red",
@@ -93,7 +94,7 @@ permillgraph <- function(state, all, capita) {
   }else{
     if (all) {
       matplot(
-        2000:(as.integer(format(Sys.Date(), "%Y"))-2),
+        2000:2017,
         t(df[, 3:20]),
         type = "l",
         col = "grey",
@@ -102,10 +103,10 @@ permillgraph <- function(state, all, capita) {
         main = "Police Killings in US by State"
       )
 
-      lines(2000:(as.integer(format(Sys.Date(), "%Y"))-2), df[df$state_name == "United States", 3:20],
+      lines(2000:2017, df[df$state_name == "United States", 3:20],
               col = "black")
 
-      lines(2000:(as.integer(format(Sys.Date(), "%Y"))-2), df[df$state_name == state, 3:20],
+      lines(2000:2017, df[df$state_name == state, 3:20],
             col = "red")
 
       legend(
@@ -120,7 +121,7 @@ permillgraph <- function(state, all, capita) {
       )
     }else{
       plot(
-        2000:(as.integer(format(Sys.Date(), "%Y"))-3),
+        2000:2017,
         df[df$state_name == state, 3:20],
         type = "l",
         col = "red",

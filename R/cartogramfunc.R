@@ -38,7 +38,8 @@ ffcartogram <- function(year){
   # BM: add the p here, makes this fn more versatile
   year <- paste0('p', year)
   # make cartogram
-  ff_ctgm <- cartogram::cartogram_cont(usa, year, itermax=5)
+  ff_ctgm <- cartogram::cartogram_cont(
+    spTransform(usa, CRS("+init=epsg:3395")), year, itermax=5)
 
   # plot it
   return(
